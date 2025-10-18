@@ -2,27 +2,15 @@ import java.util.Scanner;
 
 public class PackageDimensionCalculator {
     
-    // Method to calculate package dimensions
-    public static double[] calculatePackageDimensions(double length, double width, double height) {
-        // Add 2 inches padding to each dimension for safety
-        double PADDING = 2.0;
-        
-        double packageLength = length + PADDING;
-        double packageWidth = width + PADDING;
-        double packageHeight = height + PADDING;
-        
-        return new double[]{packageLength, packageWidth, packageHeight};
+    // Validation method
+    public static boolean isValidDimension(double value) {
+        return value > 0;
     }
     
-
-// My name is ali hyder and i am a very good boy 
-
-
-
-
-    // Method to calculate package volume
-    public static double calculateVolume(double length, double width, double height) {
-        return length * width * height;
+    // Method to calculate package dimensions
+    public static double[] calculatePackageDimensions(double length, double width, double height) {
+        double PADDING = 2.0;
+        return new double[]{length + PADDING, width + PADDING, height + PADDING};
     }
     
     public static void main(String[] args) {
@@ -30,38 +18,42 @@ public class PackageDimensionCalculator {
         
         System.out.println("=== Package Dimension Calculator ===\n");
         
-        // Get item dimensions from user
-        System.out.print("Enter item length (inches): ");
-        double itemLength = scanner.nextDouble();
+        // Get and validate length
+        double itemLength;
+        do {
+            System.out.print("Enter item length (inches): ");
+            itemLength = scanner.nextDouble();
+            if (!isValidDimension(itemLength)) {
+                System.out.println("Error: Length must be positive!");
+            }
+        } while (!isValidDimension(itemLength));
         
-        System.out.print("Enter item width (inches): ");
-        double itemWidth = scanner.nextDouble();
+        // Get and validate width
+        double itemWidth;
+        do {
+            System.out.print("Enter item width (inches): ");
+            itemWidth = scanner.nextDouble();
+            if (!isValidDimension(itemWidth)) {
+                System.out.println("Error: Width must be positive!");
+            }
+        } while (!isValidDimension(itemWidth));
         
-        System.out.print("Enter item height (inches): ");
-        double itemHeight = scanner.nextDouble();
+        // Get and validate height
+        double itemHeight;
+        do {
+            System.out.print("Enter item height (inches): ");
+            itemHeight = scanner.nextDouble();
+            if (!isValidDimension(itemHeight)) {
+                System.out.println("Error: Height must be positive!");
+            }
+        } while (!isValidDimension(itemHeight));
         
-        // Calculate package dimensions
         double[] packageDims = calculatePackageDimensions(itemLength, itemWidth, itemHeight);
         
-        // Calculate volumes
-        double itemVolume = calculateVolume(itemLength, itemWidth, itemHeight);
-        double packageVolume = calculateVolume(packageDims[0], packageDims[1], packageDims[2]);
-        
-        // Display results
         System.out.println("\n--- Results ---");
-        System.out.println("Item Dimensions: " + itemLength + " x " + itemWidth + " x " + itemHeight + " inches");
-        System.out.println("Recommended Package Dimensions: " + packageDims[0] + " x " + packageDims[1] + " x " + packageDims[2] + " inches");
-        System.out.println("Item Volume: " + itemVolume + " cubic inches");
-        System.out.println("Package Volume: " + packageVolume + " cubic inches");
-        System.out.println("Extra Space: " + (packageVolume - itemVolume) + " cubic inches");
+        System.out.println("Item: " + itemLength + " x " + itemWidth + " x " + itemHeight);
+        System.out.println("Package: " + packageDims[0] + " x " + packageDims[1] + " x " + packageDims[2]);
         
         scanner.close();
     }
-}
-
-public static boolean validateInput(double value) {
-    return value > 0;
-}
-public static boolean isValidDimension(double value) {
-    return value > 0;
 }
